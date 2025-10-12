@@ -7,22 +7,22 @@ protocol HomeBusinessLogic {
 final class HomeInteractor: HomeBusinessLogic {
     private let presenter: HomePresentationLogic
     private let router: HomeRoutingLogic
-    private let service: ShortenedURLServiceProtocol
+    private let urlShortenUseCase: ShortenedURLUseCaseProtocol
     
     init(
         presenter: any HomePresentationLogic,
         router: HomeRoutingLogic,
-        service: ShortenedURLServiceProtocol
+        urlShortenUseCase: ShortenedURLUseCaseProtocol
     ) {
         self.presenter = presenter
         self.router = router
-        self.service = service
+        self.urlShortenUseCase = urlShortenUseCase
     }
     
     func getShortenedURL(for url: String) {
         Task {
             do {
-                let response = try await service.shorten(urlString: url)
+                let response = try await urlShortenUseCase.shorten(urlString: url)
                 print("✅ Interactor received response: \(response.alias)")
                 // Aqui você pode chamar o presenter para atualizar a view
                 // presenter.presentShortenedURL(response)

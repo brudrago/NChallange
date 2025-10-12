@@ -1,8 +1,8 @@
 import Foundation
 
-struct URLShortenedResponse: Decodable {
+struct URLShortenedResponseDTO: Decodable {
     let alias: String
-    let links: Links
+    let links: LinksDTO
     
     enum CodingKeys: String, CodingKey {
         case alias
@@ -10,7 +10,7 @@ struct URLShortenedResponse: Decodable {
     }
 }
 
-struct Links: Decodable {
+struct LinksDTO: Decodable {
     let selfURL: String
     let short: String
     

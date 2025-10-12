@@ -9,11 +9,13 @@ struct HomeConfigurator {
         
         let networkManager = NetworkManager()
         let service = ShortenedURLService(networkManager: networkManager)
+        let mapper = ShortenedURLMapper()
+        let useCase = ShortenedURLUseCase(service: service, mapper: mapper)
         
         let interactor = HomeInteractor(
             presenter: presenter,
             router: router,
-            service: service
+            urlShortenUseCase: useCase
         )
         
         let viewController = HomeViewController(
