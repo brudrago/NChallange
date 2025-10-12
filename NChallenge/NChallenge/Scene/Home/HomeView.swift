@@ -32,7 +32,7 @@ class HomeView: UIView, HomeViewDisplayLogic {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        button.setTitle("Enviar", for: .normal)
+        button.setTitle("Send", for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .purple
@@ -108,6 +108,10 @@ extension HomeView: UITextFieldDelegate {
 // MARK: - UITableViewDataSource Extension
 
 extension HomeView: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3 // Número de células para teste
     }
@@ -129,5 +133,9 @@ extension HomeView: UITableViewDataSource {
 extension HomeView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80 // Altura da célula
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Recently shortened URLs"
     }
 }
