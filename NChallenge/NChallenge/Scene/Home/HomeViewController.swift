@@ -1,10 +1,17 @@
 import UIKit
 
-class HomeViewController: UIViewController {
-    private var customView: HomeViewDisplayLogic
+protocol HomeViewDisplayLogic: AnyObject {}
+
+final class HomeViewController: UIViewController {
+    private var customView: HomeViewProtocol
+    private let interactor: HomeBusinessLogic
     
-    init(customView: any HomeViewDisplayLogic) {
+    init(
+        customView: HomeViewProtocol,
+        interactor: HomeBusinessLogic
+    ) {
         self.customView = customView
+        self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -19,7 +26,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
-
 }
 
+extension HomeViewController: HomeViewDisplayLogic {
+    
+}

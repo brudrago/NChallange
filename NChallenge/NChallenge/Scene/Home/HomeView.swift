@@ -1,10 +1,10 @@
 import UIKit
 
-protocol HomeViewDisplayLogic: UIView  {
+protocol HomeViewProtocol: UIView  {
     
 }
 
-class HomeView: UIView, HomeViewDisplayLogic {
+class HomeView: UIView, HomeViewProtocol {
     
     // MARK: - UIComponents
     
