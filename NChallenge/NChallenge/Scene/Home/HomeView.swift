@@ -1,10 +1,12 @@
 import UIKit
 
-protocol HomeViewProtocol: UIView  {
-    
+protocol HomeViewProtocol: UIView  {}
+
+protocol HomeViewDelegate: AnyObject {
+    func didTapSendButton(_ text: String)
 }
 
-class HomeView: UIView, HomeViewProtocol {
+final class HomeView: UIView, HomeViewProtocol {
     
     // MARK: - UIComponents
     
@@ -23,8 +25,10 @@ class HomeView: UIView, HomeViewProtocol {
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
         textField.autocorrectionType = .no
-        textField.returnKeyType = .go
+        textField.returnKeyType = .done
+        textField.placeholder = "Enter a URL"
         textField.clearButtonMode = .whileEditing
+        textField.keyboardType = .URL
         return textField
     }()
     
@@ -49,6 +53,8 @@ class HomeView: UIView, HomeViewProtocol {
         return table
     }()
     
+    weak var delegate: HomeViewDelegate?
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
@@ -58,6 +64,25 @@ class HomeView: UIView, HomeViewProtocol {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func sendButtonTapped() {
+        guard button.isEnabled else { return }
+        delegate?.didTapSendButton(textField.text ?? "")
+        textField.text = nil
+    }
+    
+    @objc private func textFieldDidChange() {
+        updateButtonState()
+    }
+    
+    private func updateButtonState() {
+        let text = textField.text ?? ""
+        let hasValidText = !text.isEmpty && text.count >= 5
+        button.isEnabled = hasValidText
+        button.alpha = hasValidText ? 1.0 : 0.5
     }
 }
 
@@ -92,15 +117,18 @@ extension HomeView: ViewCodeProtocol {
         backgroundColor = .systemBackground
         tableView.dataSource = self
         tableView.delegate = self
+        button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        
+        updateButtonState()
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
-    
 }
 
 // MARK: - UITextField Delegate Extension
 
 extension HomeView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("textfield: \(textField.text ?? "")")
+        textField.resignFirstResponder()
         return true
     }
 }

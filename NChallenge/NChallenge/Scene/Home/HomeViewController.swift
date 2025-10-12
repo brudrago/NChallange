@@ -28,6 +28,11 @@ final class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: HomeViewDisplayLogic {
-    
+extension HomeViewController: HomeViewDisplayLogic {}
+
+extension HomeViewController: HomeViewDelegate {
+    func didTapSendButton(_ text: String) {
+        print("Text: \(text)")
+    }
 }
+

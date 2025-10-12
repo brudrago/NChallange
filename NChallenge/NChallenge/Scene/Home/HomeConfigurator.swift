@@ -17,6 +17,7 @@ struct HomeConfigurator {
             interactor: interactor
         )
         
+        view.delegate = viewController
         presenter.viewController = viewController
         router.viewController = viewController
         
