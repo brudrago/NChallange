@@ -1,6 +1,9 @@
 import UIKit
 
-protocol HomeViewDisplayLogic: AnyObject {}
+protocol HomeViewDisplayLogic: AnyObject {
+    func displayList(viewModel: HomeModels.ShortenUrl.ViewModel)
+    func displayList(viewModel: HomeModels.DisplayList.ViewModel)
+}
 
 final class HomeViewController: UIViewController {
     private var customView: HomeViewProtocol
@@ -25,15 +28,30 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadAllShortenedURLs()
+    }
+    
+    private func loadAllShortenedURLs() {
+        interactor.getAllShortenedURLs(request: .init())
     }
 }
 
-extension HomeViewController: HomeViewDisplayLogic {}
+extension HomeViewController: HomeViewDisplayLogic {
+    func displayList(viewModel: HomeModels.ShortenUrl.ViewModel) {
+        // Para uma URL individual, converte para array
+        let urls = [viewModel.shortenURL]
+        customView.updateShortenedURLs(urls)
+    }
+    
+    func displayList(viewModel: HomeModels.DisplayList.ViewModel) {
+        let urls = viewModel.shortenedURLs
+        customView.updateShortenedURLs(urls)
+    }
+}
 
 extension HomeViewController: HomeViewDelegate {
     func didTapSendButton(_ text: String) {
-        print("Text: \(text)")
-        interactor.getShortenedURL(for: text)
+        interactor.getShortenedURL(request: .init(url: text))
     }
 }
 

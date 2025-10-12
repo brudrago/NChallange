@@ -1,7 +1,7 @@
 import Foundation
 
 // MARK: - Domain Model
-struct ShortenedURL {
+struct ShortenedURL: Codable {
     let alias: String
     let originalURL: String
     let shortURL: String

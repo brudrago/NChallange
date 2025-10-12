@@ -1,6 +1,8 @@
 import UIKit
 
-protocol HomeViewProtocol: UIView  {}
+protocol HomeViewProtocol: UIView  {
+    func updateShortenedURLs(_ urls: [ShortenedURL])
+}
 
 protocol HomeViewDelegate: AnyObject {
     func didTapSendButton(_ text: String)
@@ -55,6 +57,9 @@ final class HomeView: UIView, HomeViewProtocol {
     
     weak var delegate: HomeViewDelegate?
     
+    // MARK: - Data
+    private var shortenedURLs: [ShortenedURL] = []
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
@@ -83,6 +88,16 @@ final class HomeView: UIView, HomeViewProtocol {
         let hasValidText = !text.isEmpty && text.count >= 5
         button.isEnabled = hasValidText
         button.alpha = hasValidText ? 1.0 : 0.5
+    }
+    
+    // MARK: - Public Methods
+    
+    func updateShortenedURLs(_ urls: [ShortenedURL]) {
+        shortenedURLs = urls
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }
 
@@ -141,7 +156,7 @@ extension HomeView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3 // Número de células para teste
+        return shortenedURLs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -149,8 +164,8 @@ extension HomeView: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        // Dados de exemplo para teste
-        cell.configure(with: "Alias \(indexPath.row + 1)", shortLink: "https://short.ly/abc\(indexPath.row + 1)")
+        let shortenedURL = shortenedURLs[indexPath.row]
+        cell.configure(with: shortenedURL.alias, shortLink: shortenedURL.shortURL)
         
         return cell
     }
@@ -164,6 +179,7 @@ extension HomeView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Recently shortened URLs"
+        let title = shortenedURLs.count <= 0 ? "" : "Recently shortened URLs"
+        return title
     }
 }

@@ -12,10 +12,14 @@ struct HomeConfigurator {
         let mapper = ShortenedURLMapper()
         let useCase = ShortenedURLUseCase(service: service, mapper: mapper)
         
+        let cacheManager = ShortenedURLCacheManager()
+        let repository = ShortenedURLRepository(cacheManager: cacheManager)
+        
         let interactor = HomeInteractor(
             presenter: presenter,
             router: router,
-            urlShortenUseCase: useCase
+            urlShortenUseCase: useCase,
+            repository: repository
         )
         
         let viewController = HomeViewController(
