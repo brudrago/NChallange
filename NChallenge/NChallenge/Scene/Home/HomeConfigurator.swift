@@ -7,9 +7,13 @@ struct HomeConfigurator {
         let router = HomeRouter()
         let presenter = HomePresenter()
         
+        let networkManager = NetworkManager()
+        let service = ShortenedURLService(networkManager: networkManager)
+        
         let interactor = HomeInteractor(
             presenter: presenter,
-            router: router
+            router: router,
+            service: service
         )
         
         let viewController = HomeViewController(

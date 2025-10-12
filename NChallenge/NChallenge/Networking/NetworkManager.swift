@@ -6,15 +6,11 @@ enum NetworkError: Error {
     case encodingError
 }
 
-struct URLShortenRequest: Encodable {
-    let url: String
-}
-
 protocol NetworkManagerProtocol {
     func post<T: Encodable>(_ urlString: String, body: T) async throws -> Result<(Data, URLResponse), Error>
 }
 
-final class NetworkManager {
+final class NetworkManager: NetworkManagerProtocol {
     init() {}
     
     func post<T: Encodable>(_ urlString: String, body: T) async throws -> Result<(Data, URLResponse), Error> {

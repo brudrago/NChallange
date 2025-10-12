@@ -33,6 +33,7 @@ extension HomeViewController: HomeViewDisplayLogic {}
 extension HomeViewController: HomeViewDelegate {
     func didTapSendButton(_ text: String) {
         print("Text: \(text)")
+        interactor.getShortenedURL(for: text)
     }
 }
 
