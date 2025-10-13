@@ -23,6 +23,8 @@ final class LinkAliasCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .black
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -31,6 +33,18 @@ final class LinkAliasCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .black
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
+        return label
+    }()
+    
+    private let originalUrlLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .black
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -47,9 +61,10 @@ final class LinkAliasCell: UITableViewCell {
     
     // MARK: - Public Methods
     
-    func configure(with alias: String, shortLink: String) {
+    func configure(with alias: String, shortLink: String, originalUrl: String) {
         aliasLabel.text = alias
         shortLinkLabel.text = shortLink
+        originalUrlLabel.text = originalUrl
     }
 }
 
@@ -58,6 +73,7 @@ extension LinkAliasCell: ViewCodeProtocol {
         contentView.addSubview(containerView)
         containerView.addSubview(aliasLabel)
         containerView.addSubview(shortLinkLabel)
+        containerView.addSubview(originalUrlLabel)
     }
     
     
@@ -75,7 +91,11 @@ extension LinkAliasCell: ViewCodeProtocol {
             shortLinkLabel.topAnchor.constraint(equalTo: aliasLabel.bottomAnchor, constant: 4),
             shortLinkLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             shortLinkLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            shortLinkLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16)
+            
+            originalUrlLabel.topAnchor.constraint(equalTo: shortLinkLabel.bottomAnchor, constant: 4),
+            originalUrlLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            originalUrlLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            originalUrlLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16)
         ])
     }
     

@@ -165,7 +165,7 @@ extension HomeView: UITableViewDataSource {
         }
         
         let shortenedURL = shortenedURLs[indexPath.row]
-        cell.configure(with: shortenedURL.alias, shortLink: shortenedURL.shortURL)
+        cell.configure(with: shortenedURL.alias, shortLink: shortenedURL.shortURL, originalUrl: shortenedURL.originalURL)
         
         return cell
     }
@@ -175,7 +175,7 @@ extension HomeView: UITableViewDataSource {
 
 extension HomeView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80 // Altura da célula
+        return 120
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
