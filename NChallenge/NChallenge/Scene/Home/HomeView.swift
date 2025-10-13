@@ -22,10 +22,10 @@ final class HomeView: UIView, HomeViewProtocol {
         textField.textAlignment = .center
         textField.font = UIFont.preferredFont(forTextStyle: .title2)
         textField.adjustsFontSizeToFitWidth = true
-        textField.minimumFontSize = 12
+        textField.minimumFontSize = Constants.minimumFontSize
         
         textField.backgroundColor = .systemGray6
-        textField.layer.cornerRadius = 8
+        textField.layer.cornerRadius = Constants.cornerRadius
         textField.autocorrectionType = .no
         textField.returnKeyType = .done
         textField.placeholder = AppStrings.UI.enterURL
@@ -42,7 +42,7 @@ final class HomeView: UIView, HomeViewProtocol {
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .purple
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = Constants.cornerRadius
         return button
     }()
     
@@ -56,6 +56,17 @@ final class HomeView: UIView, HomeViewProtocol {
     }()
     
     weak var delegate: HomeViewDelegate?
+    
+    private enum Constants {
+        static let spacing16 = 16.0
+        static let textFieldHeight = 44.0
+        static let spacing24 = 24.0
+        static let cellHeight = 120.0
+        static let minCharacterCountForButtonEnabling: Int = 5
+        static let totalSections = 1
+        static let cornerRadius = 8.0
+        static let minimumFontSize = 12.0
+    }
     
     // MARK: - Data
     private var shortenedURLs: [ShortenedURL] = []
@@ -85,7 +96,7 @@ final class HomeView: UIView, HomeViewProtocol {
     
     private func updateButtonState() {
         let text = textField.text ?? ""
-        let hasValidText = !text.isEmpty && text.count >= 5
+        let hasValidText = !text.isEmpty && text.count >= Constants.minCharacterCountForButtonEnabling
         button.isEnabled = hasValidText
         button.alpha = hasValidText ? 1.0 : 0.5
     }
@@ -112,16 +123,16 @@ extension HomeView: ViewCodeProtocol {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 24),
-            textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            textField.heightAnchor.constraint(equalToConstant: 44),
+            textField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.spacing24),
+            textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.spacing16),
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.spacing16),
+            textField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
 
-            button.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 16),
-            button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            button.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: Constants.spacing16),
+            button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.spacing16),
+            button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.spacing16),
             
-            tableView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 16),
+            tableView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: Constants.spacing16),
             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
@@ -152,7 +163,7 @@ extension HomeView: UITextFieldDelegate {
 
 extension HomeView: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        Constants.totalSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -175,7 +186,7 @@ extension HomeView: UITableViewDataSource {
 
 extension HomeView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return Constants.cellHeight
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

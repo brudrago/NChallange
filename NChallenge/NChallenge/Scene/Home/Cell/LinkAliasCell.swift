@@ -48,6 +48,12 @@ final class LinkAliasCell: UITableViewCell {
         return label
     }()
     
+    private enum Constants {
+        static let spacing4 = 4.0
+        static let spacing8 = 8.0
+        static let spacing16 = 16.0
+    }
+    
     // MARK: - Inits
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -79,23 +85,23 @@ extension LinkAliasCell: ViewCodeProtocol {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing4),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing8),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing8),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing4),
             
-            aliasLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
-            aliasLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            aliasLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            aliasLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Constants.spacing16),
+            aliasLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constants.spacing16),
+            aliasLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constants.spacing16),
             
-            shortLinkLabel.topAnchor.constraint(equalTo: aliasLabel.bottomAnchor, constant: 4),
-            shortLinkLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            shortLinkLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            shortLinkLabel.topAnchor.constraint(equalTo: aliasLabel.bottomAnchor, constant: Constants.spacing4),
+            shortLinkLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constants.spacing16),
+            shortLinkLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constants.spacing16),
             
-            originalUrlLabel.topAnchor.constraint(equalTo: shortLinkLabel.bottomAnchor, constant: 4),
-            originalUrlLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            originalUrlLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            originalUrlLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16)
+            originalUrlLabel.topAnchor.constraint(equalTo: shortLinkLabel.bottomAnchor, constant: Constants.spacing4),
+            originalUrlLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constants.spacing16),
+            originalUrlLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constants.spacing16),
+            originalUrlLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Constants.spacing16)
         ])
     }
     

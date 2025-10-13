@@ -1,6 +1,6 @@
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: Error, Equatable {
     case invalidResponse(statusCode: Int)
     case invalidURL
     case encodingError
