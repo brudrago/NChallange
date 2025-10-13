@@ -24,21 +24,21 @@ final class HomeInteractor: HomeBusinessLogic {
     }
     
     func getShortenedURL(request: HomeModels.ShortenUrl.Request) {
-        if let cachedURL = repository.getCachedURL(for: request.url) {
-            print("✅ URL found in cache: \(cachedURL.alias)")
-            // Busca todas as URLs para atualizar a lista completa
-            let allURLs = repository.getAll()
-            presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
-            return
-        }
-        
         Task {
+            if let cachedURL = await repository.getCachedURL(for: request.url) {
+                print("✅ URL found in cache: \(cachedURL.alias)")
+                // Busca todas as URLs para atualizar a lista completa
+                let allURLs = await repository.getAll()
+                presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
+                return
+            }
+            
             do {
                 let response = try await urlShortenUseCase.shorten(urlString: request.url)
-                repository.save(response)
+                await repository.save(response)
                 
                 // Após salvar, busca todas as URLs para atualizar a lista completa
-                let allURLs = repository.getAll()
+                let allURLs = await repository.getAll()
                 presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
             } catch {
                 print("❌ Interactor error: \(error)")
@@ -49,8 +49,10 @@ final class HomeInteractor: HomeBusinessLogic {
     }
     
     func getAllShortenedURLs(request: HomeModels.DisplayList.Request) {
-        let allURLs = repository.getAll()
-        presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
+        Task {
+            let allURLs = await repository.getAll()
+            presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
+        }
     }
     
 }

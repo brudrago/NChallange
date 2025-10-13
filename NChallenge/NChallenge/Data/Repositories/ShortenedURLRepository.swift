@@ -1,28 +1,28 @@
 import Foundation
 
 protocol ShortenedURLRepositoryProtocol {
-    func save(_ shortenedURL: ShortenedURL)
-    func getAll() -> [ShortenedURL]
-    func getCachedURL(for originalURL: String) -> ShortenedURL?
+    func save(_ shortenedURL: ShortenedURL) async
+    func getAll() async -> [ShortenedURL]
+    func isURLAlreadyCached(_ originalURL: String) async -> Bool
+    func getCachedURL(for originalURL: String) async -> ShortenedURL?
 }
 
-
-final class ShortenedURLRepository: ShortenedURLRepositoryProtocol {
-    private let cacheManager: ShortenedURLCacheManagerProtocol
-    
-    init(cacheManager: ShortenedURLCacheManagerProtocol) {
-        self.cacheManager = cacheManager
-    }
+actor ShortenedURLRepository: ShortenedURLRepositoryProtocol {
+    private var shortenedURLs: [ShortenedURL] = []
     
     func save(_ shortenedURL: ShortenedURL) {
-        cacheManager.cacheShortenedURL(shortenedURL)
+        shortenedURLs.append(shortenedURL)
     }
     
     func getAll() -> [ShortenedURL] {
-        return cacheManager.getCachedShortenedURLs()
+        return shortenedURLs
     }
-
+    
+    func isURLAlreadyCached(_ originalURL: String) -> Bool {
+        return shortenedURLs.contains { $0.originalURL == originalURL }
+    }
+    
     func getCachedURL(for originalURL: String) -> ShortenedURL? {
-        return cacheManager.getCachedURL(for: originalURL)
+        return shortenedURLs.first { $0.originalURL == originalURL }
     }
 }
