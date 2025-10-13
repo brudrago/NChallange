@@ -1,8 +1,8 @@
 import Foundation
 
 protocol HomePresentationLogic {
-    func presentShortenedURL(response: HomeModels.ShortenUrl.Response)
     func presentAllShortenedURLs(response: HomeModels.DisplayList.Response)
+    func presentError(response: HomeModels.Error.Response)
 }
 
 final class HomePresenter: HomePresentationLogic {
@@ -11,13 +11,11 @@ final class HomePresenter: HomePresentationLogic {
     
     init() {}
     
-    func presentShortenedURL(response: HomeModels.ShortenUrl.Response) {
-        // Quando uma nova URL é encurtada, busca todas as URLs para atualizar a lista
-        // Isso será tratado pelo interactor chamando presentAllShortenedURLs
-        viewController?.displayList(viewModel: .init(shortenURL: response.shortenURL))
-    }
-    
     func presentAllShortenedURLs(response: HomeModels.DisplayList.Response) {
         viewController?.displayList(viewModel: .init(shortenedURLs: response.shortenedURLs))
+    }
+    
+    func presentError(response: HomeModels.Error.Response) {
+        viewController?.displayError(viewModel: .init(message: response.message))
     }
 }

@@ -25,11 +25,8 @@ final class HomeInteractor: HomeBusinessLogic {
     
     func getShortenedURL(request: HomeModels.ShortenUrl.Request) {
         Task {
-            if let cachedURL = await repository.getCachedURL(for: request.url) {
-                print("✅ URL found in cache: \(cachedURL.alias)")
-                // Busca todas as URLs para atualizar a lista completa
-                let allURLs = await repository.getAll()
-                presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
+            if await repository.isURLAlreadyCached(request.url) {
+                presenter.presentError(response: .init(message: AppStrings.Alerts.urlAlreadyShortened))
                 return
             }
             
@@ -37,13 +34,10 @@ final class HomeInteractor: HomeBusinessLogic {
                 let response = try await urlShortenUseCase.shorten(urlString: request.url)
                 await repository.save(response)
                 
-                // Após salvar, busca todas as URLs para atualizar a lista completa
                 let allURLs = await repository.getAll()
                 presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
             } catch {
-                print("❌ Interactor error: \(error)")
-                // Aqui você pode chamar o presenter para mostrar erro
-                // presenter.presentError(error)
+                presenter.presentError(response: .init(message: AppStrings.Alerts.shortenFailed))
             }
         }
     }

@@ -14,14 +14,26 @@ enum HomeModels {
     }
     
     enum DisplayList {
-        struct Request {
-            // Request vazio para buscar todas as URLs
-        }
+        struct Request {}
+        
         struct Response {
             let shortenedURLs: [ShortenedURL]
         }
+        
         struct ViewModel {
             let shortenedURLs: [ShortenedURL]
+        }
+    }
+    
+    enum Error {
+        struct Request {}
+        
+        struct Response {
+            let message: String
+        }
+        
+        struct ViewModel {
+            let message: String
         }
     }
 }

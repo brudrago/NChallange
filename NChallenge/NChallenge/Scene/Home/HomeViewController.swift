@@ -1,8 +1,8 @@
 import UIKit
 
 protocol HomeViewDisplayLogic: AnyObject {
-    func displayList(viewModel: HomeModels.ShortenUrl.ViewModel)
     func displayList(viewModel: HomeModels.DisplayList.ViewModel)
+    func displayError(viewModel: HomeModels.Error.ViewModel)
 }
 
 final class HomeViewController: UIViewController {
@@ -37,15 +37,21 @@ final class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: HomeViewDisplayLogic {
-    func displayList(viewModel: HomeModels.ShortenUrl.ViewModel) {
-        // Para uma URL individual, converte para array
-        let urls = [viewModel.shortenURL]
-        customView.updateShortenedURLs(urls)
-    }
-    
     func displayList(viewModel: HomeModels.DisplayList.ViewModel) {
         let urls = viewModel.shortenedURLs
         customView.updateShortenedURLs(urls)
+    }
+    
+    func displayError(viewModel: HomeModels.Error.ViewModel) {
+        DispatchQueue.main.async { [weak self] in
+            self?.showAlert(title: AppStrings.Alerts.errorTitle, message: viewModel.message)
+        }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: AppStrings.Alerts.okButton, style: .default))
+        present(alert, animated: true)
     }
 }
 

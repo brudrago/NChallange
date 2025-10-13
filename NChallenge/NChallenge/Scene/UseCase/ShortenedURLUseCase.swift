@@ -20,7 +20,6 @@ struct ShortenedURLUseCase: ShortenedURLUseCaseProtocol {
         do {
             let response = try await service.shorten(urlString: urlString)
             let mappedResponse = mapper.map(response)
-            print("✅ Interactor received response: \(response.alias)")
             return mappedResponse
             
         } catch {

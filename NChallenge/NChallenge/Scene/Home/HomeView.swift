@@ -28,7 +28,7 @@ final class HomeView: UIView, HomeViewProtocol {
         textField.layer.cornerRadius = 8
         textField.autocorrectionType = .no
         textField.returnKeyType = .done
-        textField.placeholder = "Enter a URL"
+        textField.placeholder = AppStrings.UI.enterURL
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .URL
         return textField
@@ -38,7 +38,7 @@ final class HomeView: UIView, HomeViewProtocol {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        button.setTitle("Send", for: .normal)
+        button.setTitle(AppStrings.UI.sendButton, for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .purple
@@ -179,7 +179,7 @@ extension HomeView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let title = shortenedURLs.count <= 0 ? "" : "Recently shortened URLs"
+        let title = shortenedURLs.count <= 0 ? "" : AppStrings.UI.recentlyShortened
         return title
     }
 }
