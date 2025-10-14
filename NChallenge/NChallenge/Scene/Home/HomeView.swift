@@ -31,6 +31,7 @@ final class HomeView: UIView, HomeViewProtocol {
         textField.placeholder = AppStrings.UI.enterURL
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .URL
+        textField.accessibilityIdentifier = "home.textField"
         return textField
     }()
     
@@ -43,6 +44,7 @@ final class HomeView: UIView, HomeViewProtocol {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .purple
         button.layer.cornerRadius = Constants.cornerRadius
+        button.accessibilityIdentifier = "home.sendButton"
         return button
     }()
     
@@ -52,6 +54,7 @@ final class HomeView: UIView, HomeViewProtocol {
         table.register(LinkAliasCell.self, forCellReuseIdentifier: LinkAliasCell.identifier)
         table.separatorStyle = .none
         table.backgroundColor = .systemGroupedBackground
+        table.accessibilityIdentifier = "home.tableView"
         return table
     }()
     
