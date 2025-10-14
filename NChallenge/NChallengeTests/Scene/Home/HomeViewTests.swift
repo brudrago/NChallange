@@ -24,12 +24,13 @@ final class HomeViewTests: XCTestCase {
             return
         }
 
-        textField.text = "http"      // 4 chars < min (5)
+        //min char = 5
+        textField.text = "http"
         textField.sendActions(for: .editingChanged)
         XCTAssertFalse(button.isEnabled)
         XCTAssertEqual(button.alpha, 0.5, accuracy: 0.001)
 
-        textField.text = "https://"  // >= 5
+        textField.text = "https://"
         textField.sendActions(for: .editingChanged)
         XCTAssertTrue(button.isEnabled)
         XCTAssertEqual(button.alpha, 1.0, accuracy: 0.001)
