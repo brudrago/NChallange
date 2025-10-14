@@ -14,8 +14,6 @@ final class HomeViewSnapshotTests: XCTestCase {
         super.tearDown()
     }
 
-    // MARK: - Cenários
-
     func test_homeView_initial_light() {
         let (homeView, vc) = makeSUT()
         homeView.updateShortenedURLs([])
