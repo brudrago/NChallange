@@ -12,10 +12,8 @@ final class ShortenedURLServiceTests: XCTestCase {
 
     func testShorten_WithValidURL_ShouldReturnShortenedURL() async throws {
         let urlString = "https://example.com"
-        let expectedResponse = URLShortenedResponseDTO(
-            alias: "abc123",
-            links: LinksDTO(selfURL: urlString, short: "https://short.ly/abc123")
-        )
+        let expectedResponse = URLShortenedResponseDTO.fixture(alias: "abc123", link: .fixture(selfURL: urlString, short: "https://short.ly/abc123"))
+        
         networkManagerSpy.responseToBeReturned = expectedResponse
         
         let result = try await sut.shorten(urlString: urlString)
@@ -33,19 +31,6 @@ final class ShortenedURLServiceTests: XCTestCase {
         let expectedError = NetworkError.invalidResponse(statusCode: 500)
         networkManagerSpy.errorToBeReturned = expectedError
         
-        do {
-            _ = try await sut.shorten(urlString: urlString)
-            XCTFail("Should throw network error")
-        } catch {
-            XCTAssertEqual(error as? NetworkError, expectedError)
-        }
-    }
-    
-    func testShorten_WithDecodingError_ShouldThrowError() async {
-        let urlString = "https://example.com"
-        let expectedError = NetworkError.invalidResponse(statusCode: 200)
-        networkManagerSpy.errorToBeReturned = expectedError
-  
         do {
             _ = try await sut.shorten(urlString: urlString)
             XCTFail("Should throw network error")

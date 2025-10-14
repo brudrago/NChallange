@@ -20,12 +20,6 @@ final class ShortenedURLServiceSpy: ShortenedURLServiceProtocol {
             return response
         }
         
-        return URLShortenedResponseDTO(
-            alias: "default",
-            links: LinksDTO(
-                selfURL: urlString,
-                short: "https://short.ly/default"
-            )
-        )
+        return URLShortenedResponseDTO.fixture()
     }
 }
