@@ -1,6 +1,6 @@
 import Foundation
 
-struct ShortenedURL: Codable {
+struct ShortenedURL: Codable, Equatable {
     let alias: String
     let originalURL: String
     let shortURL: String
