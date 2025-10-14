@@ -88,6 +88,7 @@ final class HomeView: UIView, HomeViewProtocol {
         guard button.isEnabled else { return }
         delegate?.didTapSendButton(textField.text ?? "")
         textField.text = nil
+        updateButtonState()
     }
     
     @objc private func textFieldDidChange() {
