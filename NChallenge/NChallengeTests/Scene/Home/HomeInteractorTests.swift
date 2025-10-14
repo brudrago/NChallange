@@ -14,7 +14,7 @@ final class HomeInteractorTests: XCTestCase {
         repository: repositorySpy
     )
 
-    func testGetShortenedURL_WithURLAlreadyCached_ShouldPresentError() async {
+    func test_getShortenedURL_withURLAlreadyCached_shouldPresentError() async {
         let url = "https://example.com"
         repositorySpy.isURLAlreadyCachedResult = true
         
@@ -28,7 +28,7 @@ final class HomeInteractorTests: XCTestCase {
         XCTAssertEqual(presenterSpy.lastErrorMessage, AppStrings.Alerts.urlAlreadyShortened)
     }
     
-    func testGetShortenedURL_WithNewURL_ShouldSaveAndPresentURL() async {
+    func test_getShortenedURL_withNewURL_shouldSaveAndPresentURL() async {
         let url = "https://example.com"
         let shortenedURL = ShortenedURL.fixture(originalURL: url)
         
@@ -48,7 +48,7 @@ final class HomeInteractorTests: XCTestCase {
         XCTAssertEqual(presenterSpy.lastShortenedURLs?.count, 1)
     }
     
-    func testGetShortenedURL_WithUseCaseError_ShouldPresentError() async {
+    func test_getShortenedURL_withUseCaseError_shouldPresentError() async {
         let url = "https://example.com"
         let error = NetworkError.invalidResponse(statusCode: 500)
         
@@ -63,7 +63,7 @@ final class HomeInteractorTests: XCTestCase {
         XCTAssertEqual(presenterSpy.lastErrorMessage, AppStrings.Alerts.shortenFailed)
     }
 
-    func testGetAllShortenedURLs_ShouldPresentAllURLs() async {
+    func test_getAllShortenedURLs_shouldPresentAllURLs() async {
         let urls = [
             ShortenedURL.fixture(alias: "abc123"),
             ShortenedURL.fixture(alias: "def456")

@@ -10,7 +10,7 @@ final class HomePresenterTests: XCTestCase {
         return presenter
     }()
     
-    func testPresentAllShortenedURLs_ShouldDisplayList() {
+    func test_presentAllShortenedURLs_shouldDisplayList() {
         let urls = [
             ShortenedURL.fixture(alias: "abc123"),
             ShortenedURL.fixture(alias: "def456")
@@ -23,7 +23,7 @@ final class HomePresenterTests: XCTestCase {
         XCTAssertEqual(viewControllerSpy.lastShortenedURLs?.count, 2)
     }
     
-    func testPresentError_ShouldDisplayError() {
+    func test_presentError_shouldDisplayError() {
         let message = "Test error message"
         let response = HomeModels.Error.Response(message: message)
         

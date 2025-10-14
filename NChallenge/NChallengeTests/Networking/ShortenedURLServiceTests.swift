@@ -10,7 +10,7 @@ final class ShortenedURLServiceTests: XCTestCase {
         return service
     }()
 
-    func testShorten_WithValidURL_ShouldReturnShortenedURL() async throws {
+    func test_shorten_withValidURL_shouldReturnShortenedURL() async throws {
         let urlString = "https://example.com"
         let expectedResponse = URLShortenedResponseDTO.fixture(alias: "abc123", link: .fixture(selfURL: urlString, short: "https://short.ly/abc123"))
         
@@ -26,7 +26,7 @@ final class ShortenedURLServiceTests: XCTestCase {
         XCTAssertNotNil(networkManagerSpy.lastBody as? URLShortenRequest)
     }
     
-    func testShorten_WithNetworkError_ShouldThrowError() async {
+    func test_shorten_withNetworkError_shouldThrowError() async {
         let urlString = "https://example.com"
         let expectedError = NetworkError.invalidResponse(statusCode: 500)
         networkManagerSpy.errorToBeReturned = expectedError

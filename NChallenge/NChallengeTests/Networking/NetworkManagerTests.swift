@@ -5,8 +5,7 @@ final class NetworkManagerTests: XCTestCase {
     
     private lazy var sut = NetworkManager()
     
-    
-    func testRequest_WithValidURL_ShouldReturnData() async throws {
+    func test_request_withValidURL_shouldReturnData() async throws {
         let url = "https://httpbin.org/get"
         let method = HTTPMethod.GET
         let responseType = HTTPBinResponse.self
@@ -22,7 +21,7 @@ final class NetworkManagerTests: XCTestCase {
         XCTAssertEqual(response.url, url)
     }
     
-    func testRequest_WithPOST_ShouldReturnData() async throws {
+    func test_request_withPOST_shouldReturnData() async throws {
         let url = "https://httpbin.org/post"
         let method = HTTPMethod.POST
         let body = TestRequest(name: "Test", value: 123)
@@ -40,7 +39,7 @@ final class NetworkManagerTests: XCTestCase {
         XCTAssertEqual(response.url, url)
     }
     
-    func testRequest_WithNonExistentURL_ShouldThrowError() async {
+    func test_request_withNonExistentURL_shouldThrowError() async {
         let url = "https://non-existent-domain-12345.com"
         let method = HTTPMethod.GET
         let responseType = HTTPBinResponse.self
@@ -58,7 +57,7 @@ final class NetworkManagerTests: XCTestCase {
         }
     }
     
-    func testRequest_WithInvalidResponseType_ShouldThrowDecodingError() async {
+    func test_request_withInvalidResponseType_shouldThrowDecodingError() async {
         let url = "https://httpbin.org/get"
         let method = HTTPMethod.GET
         let responseType = InvalidResponse.self
@@ -77,20 +76,22 @@ final class NetworkManagerTests: XCTestCase {
     }
 }
 
-// MARK: - Test Models
-
-private struct TestRequest: Codable {
-    let name: String
-    let value: Int
+private extension NetworkManagerTests {
+    struct TestRequest: Codable {
+        let name: String
+        let value: Int
+    }
+    
+    struct HTTPBinResponse: Codable {
+        let url: String
+        let method: String?
+        let json: TestRequest?
+    }
+    
+    struct InvalidResponse: Codable {
+        let nonExistentField: String
+    }
 }
 
-private struct HTTPBinResponse: Codable {
-    let url: String
-    let method: String?
-    let json: TestRequest?
-}
 
-private struct InvalidResponse: Codable {
-    let nonExistentField: String
-}
 

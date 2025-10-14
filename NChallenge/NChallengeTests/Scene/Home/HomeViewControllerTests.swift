@@ -27,7 +27,7 @@ final class HomeViewControllerTests: XCTestCase {
         XCTAssertTrue(homeViewSpy.updateShortenedURLsCalled)
     }
 
-    func testDidTapSendButton_WithValidURL_ShouldCallInteractor() {
+    func test_didTapSendButton_withValidURL_shouldCallInteractor() {
         let url = "https://example.com"
         
         sut.didTapSendButton(url)

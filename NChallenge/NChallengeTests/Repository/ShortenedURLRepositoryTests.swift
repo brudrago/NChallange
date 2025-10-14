@@ -7,7 +7,7 @@ final class ShortenedURLRepositoryTests: XCTestCase {
     
     // MARK: - Save Tests
     
-    func testSave_WithValidURL_ShouldStoreURL() async {
+    func test_save_withValidURL_shouldStoreURL() async {
         let shortenedURL = ShortenedURL.fixture(
             alias: "abc123",
             originalURL: "https://example.com",
@@ -23,7 +23,7 @@ final class ShortenedURLRepositoryTests: XCTestCase {
         XCTAssertEqual(allURLs.first?.shortURL, "https://short.ly/abc123")
     }
     
-    func testSave_MultipleURLs_ShouldStoreAll() async {
+    func test_save_multipleURLs_shouldStoreAll() async {
         let urlOne = ShortenedURL.fixture(
             alias: "abc123",
             originalURL: "https://example.com",
@@ -38,21 +38,20 @@ final class ShortenedURLRepositoryTests: XCTestCase {
 
         await sut.save(urlOne)
         await sut.save(urlTwo)
-        
-        // Then
+
         let allURLs = await sut.getAll()
         XCTAssertEqual(allURLs.count, 2)
         XCTAssertTrue(allURLs.contains { $0.alias == "abc123" })
         XCTAssertTrue(allURLs.contains { $0.alias == "def456" })
     }
 
-    func testGetAll_WithEmptyRepository_ShouldReturnEmptyArray() async {
+    func test_getAll_withEmptyRepository_shouldReturnEmptyArray() async {
         let allURLs = await sut.getAll()
 
         XCTAssertTrue(allURLs.isEmpty)
     }
     
-    func testGetAll_WithStoredURLs_ShouldReturnAllURLs() async {
+    func test_getAll_withStoredURLs_shouldReturnAllURLs() async {
         let urlOne = ShortenedURL.fixture(
             alias: "abc123",
             originalURL: "https://example.com",
@@ -73,7 +72,7 @@ final class ShortenedURLRepositoryTests: XCTestCase {
         XCTAssertEqual(allURLs.count, 2)
     }
 
-    func testIsURLAlreadyCached_WithExistingURL_ShouldReturnTrue() async {
+    func test_isURLAlreadyCached_withExistingURL_shouldReturnTrue() async {
         let url = "https://example.com"
         let shortenedURL = ShortenedURL.fixture(
             alias: "abc123",
@@ -87,7 +86,7 @@ final class ShortenedURLRepositoryTests: XCTestCase {
         XCTAssertTrue(isCached)
     }
     
-    func testIsURLAlreadyCached_WithNonExistingURL_ShouldReturnFalse() async {
+    func test_isURLAlreadyCached_withNonExistingURL_shouldReturnFalse() async {
         let existingURL = "https://example.com"
         let nonExistingURL = "https://google.com"
         let shortenedURL = ShortenedURL.fixture(
@@ -102,14 +101,14 @@ final class ShortenedURLRepositoryTests: XCTestCase {
         XCTAssertFalse(isCached)
     }
     
-    func testIsURLAlreadyCached_WithEmptyRepository_ShouldReturnFalse() async {
+    func test_isURLAlreadyCached_withEmptyRepository_shouldReturnFalse() async {
         let url = "https://example.com"
         let isCached = await sut.isURLAlreadyCached(url)
 
         XCTAssertFalse(isCached)
     }
 
-    func testGetCachedURL_WithExistingURL_ShouldReturnURL() async {
+    func test_getCachedURL_withExistingURL_shouldReturnURL() async {
         let originalURL = "https://example.com"
         let shortenedURL = ShortenedURL.fixture(
             alias: "abc123",
@@ -126,7 +125,7 @@ final class ShortenedURLRepositoryTests: XCTestCase {
         XCTAssertEqual(cachedURL?.shortURL, "https://short.ly/abc123")
     }
     
-    func testGetCachedURL_WithNonExistingURL_ShouldReturnNil() async {
+    func test_getCachedURL_withNonExistingURL_shouldReturnNil() async {
         let existingURL = "https://example.com"
         let nonExistingURL = "https://google.com"
         let shortenedURL = ShortenedURL.fixture(
@@ -141,7 +140,7 @@ final class ShortenedURLRepositoryTests: XCTestCase {
         XCTAssertNil(cachedURL)
     }
     
-    func testGetCachedURL_WithEmptyRepository_ShouldReturnNil() async {
+    func test_getCachedURL_withEmptyRepository_shouldReturnNil() async {
         let url = "https://example.com"
         let cachedURL = await sut.getCachedURL(for: url)
 
