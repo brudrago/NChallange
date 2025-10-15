@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  NChallenge
-//
-//  Created by Bruna Fernanda Drago on 12/10/25.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
