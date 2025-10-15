@@ -4,16 +4,6 @@ import SnapshotTesting
 
 final class HomeViewSnapshotTests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
-        UIView.setAnimationsEnabled(false)
-    }
-
-    override func tearDown() {
-        UIView.setAnimationsEnabled(true)
-        super.tearDown()
-    }
-
     func test_homeView_initial_light() {
         let (homeView, vc) = makeSUT()
         homeView.updateShortenedURLs([])
