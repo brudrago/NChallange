@@ -3,6 +3,7 @@ import Foundation
 protocol HomeBusinessLogic {
     func getShortenedURL(request: HomeModels.ShortenUrl.Request)
     func getAllShortenedURLs(request: HomeModels.DisplayList.Request)
+    func showUrlsList(request: HomeModels.ShowUrlsList.Request)
 }
 
 final class HomeInteractor: HomeBusinessLogic {
@@ -47,6 +48,10 @@ final class HomeInteractor: HomeBusinessLogic {
             let allURLs = await repository.getAll()
             presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
         }
+    }
+    
+    func showUrlsList(request: HomeModels.ShowUrlsList.Request) {
+        router.navigateToListView()
     }
     
 }

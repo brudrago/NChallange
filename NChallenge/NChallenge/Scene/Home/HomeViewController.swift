@@ -56,6 +56,10 @@ extension HomeViewController: HomeViewDisplayLogic {
 }
 
 extension HomeViewController: HomeViewDelegate {
+    func didTapShowUrlsButton() {
+        interactor.showUrlsList(request: .init())
+    }
+    
     func didTapSendButton(_ text: String) {
         interactor.getShortenedURL(request: .init(url: text))
     }

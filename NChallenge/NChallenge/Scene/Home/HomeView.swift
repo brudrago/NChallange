@@ -6,6 +6,7 @@ protocol HomeViewProtocol: UIView  {
 
 protocol HomeViewDelegate: AnyObject {
     func didTapSendButton(_ text: String)
+    func didTapShowUrlsButton()
 }
 
 final class HomeView: UIView, HomeViewProtocol {
@@ -58,12 +59,26 @@ final class HomeView: UIView, HomeViewProtocol {
         return table
     }()
     
+    private var showUrlsButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.setTitle(AppStrings.UI.recentlyShortened, for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .purple
+        button.layer.cornerRadius = Constants.cornerRadius
+        button.accessibilityIdentifier = "home.sendButton"
+        return button
+    }()
+    
     weak var delegate: HomeViewDelegate?
     
     private enum Constants {
         static let spacing16 = 16.0
         static let textFieldHeight = 44.0
         static let spacing24 = 24.0
+        static let spacing8 = 8.0
         static let cellHeight = 120.0
         static let minCharacterCountForButtonEnabling: Int = 5
         static let totalSections = 1
@@ -92,6 +107,10 @@ final class HomeView: UIView, HomeViewProtocol {
         delegate?.didTapSendButton(textField.text ?? "")
         textField.text = nil
         updateButtonState()
+    }
+    
+    @objc private func showUrlsButtonTapped() {
+        delegate?.didTapShowUrlsButton()
     }
     
     @objc private func textFieldDidChange() {
@@ -123,6 +142,7 @@ extension HomeView: ViewCodeProtocol {
         addSubview(textField)
         addSubview(button)
         addSubview(tableView)
+        addSubview(showUrlsButton)
     }
     
     func setupConstraints() {
@@ -139,7 +159,11 @@ extension HomeView: ViewCodeProtocol {
             tableView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: Constants.spacing16),
             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            
+            showUrlsButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: Constants.spacing8),
+            showUrlsButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.spacing16),
+            showUrlsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.spacing16),
+            showUrlsButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.spacing16)
         ])
     }
     
@@ -151,6 +175,8 @@ extension HomeView: ViewCodeProtocol {
         
         updateButtonState()
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        
+        showUrlsButton.addTarget(self, action: #selector(showUrlsButtonTapped), for: .touchUpInside)
     }
 }
 
