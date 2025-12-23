@@ -159,11 +159,12 @@ extension HomeView: ViewCodeProtocol {
             tableView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: Constants.spacing16),
             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: showUrlsButton.topAnchor, constant: -Constants.spacing8),
             
-            showUrlsButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: Constants.spacing8),
             showUrlsButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.spacing16),
             showUrlsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.spacing16),
-            showUrlsButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.spacing16)
+            showUrlsButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.spacing16),
+            showUrlsButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }
     
@@ -220,7 +221,7 @@ extension HomeView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let title = shortenedURLs.count <= 0 ? "" : AppStrings.UI.recentlyShortened
+        let title = shortenedURLs.count <= 0 ? "" : AppStrings.UI.lastShortened
         return title
     }
 }

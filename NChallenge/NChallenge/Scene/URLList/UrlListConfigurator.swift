@@ -2,9 +2,9 @@ import UIKit
 
 
 struct UrlListConfigurator {
-    static func configure() -> UIViewController {
+    static func configure(dependencies: DependencyContainer = .shared) -> UIViewController {
         let view = UrlListView()
-        let repository = ShortenedURLRepository()
+        let repository = dependencies.repository
         let presenter = UrlListPresenter()
         
         let interactor = UrlListInteractor(

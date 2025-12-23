@@ -7,10 +7,14 @@ protocol HomeRoutingLogic {
 final class HomeRouter: HomeRoutingLogic {
     weak var viewController: UIViewController?
     
-    init() {}
+    private let dependencies: DependencyContainer
+    
+    init(dependencies: DependencyContainer = .shared) {
+        self.dependencies = dependencies
+    }
     
     func navigateToListView() {
-        let controller = UrlListConfigurator.configure() 
+        let controller = UrlListConfigurator.configure(dependencies: dependencies)
         viewController?.navigationController?.pushViewController(controller, animated: true)
     }
 }

@@ -35,8 +35,11 @@ final class HomeInteractor: HomeBusinessLogic {
                 let response = try await urlShortenUseCase.shorten(urlString: request.url)
                 await repository.save(response)
                 
+                // Busca apenas a última URL (a mais recente)
                 let allURLs = await repository.getAll()
-                presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
+                let lastURL = allURLs.last
+                let lastURLs = lastURL.map { [$0] } ?? []
+                presenter.presentAllShortenedURLs(response: .init(shortenedURLs: lastURLs))
             } catch {
                 presenter.presentError(response: .init(message: AppStrings.Alerts.shortenFailed))
             }
@@ -45,8 +48,11 @@ final class HomeInteractor: HomeBusinessLogic {
     
     func getAllShortenedURLs(request: HomeModels.DisplayList.Request) {
         Task {
+            // Busca apenas a última URL (a mais recente)
             let allURLs = await repository.getAll()
-            presenter.presentAllShortenedURLs(response: .init(shortenedURLs: allURLs))
+            let lastURL = allURLs.last
+            let lastURLs = lastURL.map { [$0] } ?? []
+            presenter.presentAllShortenedURLs(response: .init(shortenedURLs: lastURLs))
         }
     }
     

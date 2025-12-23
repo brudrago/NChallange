@@ -10,6 +10,8 @@ protocol ShortenedURLRepositoryProtocol {
 actor ShortenedURLRepository: ShortenedURLRepositoryProtocol {
     private var shortenedURLs: [ShortenedURL] = []
     
+    init() {}
+    
     func save(_ shortenedURL: ShortenedURL) {
         shortenedURLs.append(shortenedURL)
     }
