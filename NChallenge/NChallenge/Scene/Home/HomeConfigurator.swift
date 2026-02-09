@@ -2,17 +2,13 @@ import UIKit
 
 
 struct HomeConfigurator {
-    static func configure() -> UIViewController {
+    static func configure(dependencies: DependencyContainer = .shared) -> UIViewController {
         let view = HomeView()
-        let router = HomeRouter()
+        let router = HomeRouter(dependencies: dependencies)
         let presenter = HomePresenter()
         
-        let networkManager = NetworkManager()
-        let service = ShortenedURLService(networkManager: networkManager)
-        let mapper = ShortenedURLMapper()
-        let useCase = ShortenedURLUseCase(service: service, mapper: mapper)
-        
-        let repository = ShortenedURLRepository()
+        let useCase = dependencies.makeShortenedURLUseCase()
+        let repository = dependencies.repository
         
         let interactor = HomeInteractor(
             presenter: presenter,

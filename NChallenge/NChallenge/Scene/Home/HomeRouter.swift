@@ -1,9 +1,20 @@
 import UIKit
 
-protocol HomeRoutingLogic {}
+protocol HomeRoutingLogic {
+    func navigateToListView()
+}
 
 final class HomeRouter: HomeRoutingLogic {
     weak var viewController: UIViewController?
     
-    init() {}
+    private let dependencies: DependencyContainer
+    
+    init(dependencies: DependencyContainer = .shared) {
+        self.dependencies = dependencies
+    }
+    
+    func navigateToListView() {
+        let controller = UrlListConfigurator.configure(dependencies: dependencies)
+        viewController?.navigationController?.pushViewController(controller, animated: true)
+    }
 }

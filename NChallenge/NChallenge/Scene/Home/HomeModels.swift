@@ -36,4 +36,12 @@ enum HomeModels {
             let message: String
         }
     }
+    
+    enum ShowUrlsList {
+        struct Request {}
+        
+        struct Response {}
+        
+        struct ViewModel {}
+    }
 }

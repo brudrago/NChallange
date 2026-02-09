@@ -1,22 +1,19 @@
-//
-//  SceneDelegate.swift
-//  NChallenge
-//
-//  Created by Bruna Fernanda Drago on 12/10/25.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
+    // Container de dependências compartilhado
+    private let dependencies = DependencyContainer.shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let initialViewController = HomeConfigurator.configure()
+        
+        // Injeta as dependências compartilhadas
+        let initialViewController = HomeConfigurator.configure(dependencies: dependencies)
         window?.rootViewController = UINavigationController(rootViewController: initialViewController)
         window?.makeKeyAndVisible()
     }

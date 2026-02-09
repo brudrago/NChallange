@@ -12,6 +12,7 @@ enum AppStrings {
         static let enterURL = "Enter a URL"
         static let sendButton = "Send"
         static let recentlyShortened = "Recently shortened URLs"
+        static let lastShortened = "Last shortened URL"
     }
 }
 
